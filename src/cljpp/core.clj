@@ -5,5 +5,9 @@
 (defn -main
   [& args]
   (binding [*read-eval* false]
-    (pprint/pprint (read))
+    (loop [form (read *in* false ::end true)]
+      (when (not= form ::end)
+        (pprint/pprint form)
+        (flush)
+        (recur (read *in* false ::end true))))
     (flush)))
